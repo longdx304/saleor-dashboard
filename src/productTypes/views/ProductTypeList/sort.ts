@@ -1,12 +1,6 @@
-import {
-  ProductTypeListUrlQueryParams,
-  ProductTypeListUrlSortField
-} from "@saleor/productTypes/urls";
-import {
-  ProductTypeSortingInput,
-  ProductTypeSortField
-} from "@saleor/types/globalTypes";
-import { getOrderDirection } from "@saleor/utils/sort";
+import { ProductTypeListUrlSortField } from "@saleor/productTypes/urls";
+import { ProductTypeSortField } from "@saleor/types/globalTypes";
+import { createGetSortQueryVariables } from "@saleor/utils/sort";
 
 export function getSortQueryField(
   sort: ProductTypeListUrlSortField
@@ -21,11 +15,6 @@ export function getSortQueryField(
   }
 }
 
-export function getSortQueryVariables(
-  params: ProductTypeListUrlQueryParams
-): ProductTypeSortingInput {
-  return {
-    direction: getOrderDirection(params.asc),
-    field: getSortQueryField(params.sort)
-  };
-}
+export const getSortQueryVariables = createGetSortQueryVariables(
+  getSortQueryField
+);

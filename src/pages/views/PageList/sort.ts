@@ -1,9 +1,6 @@
-import {
-  PageListUrlQueryParams,
-  PageListUrlSortField
-} from "@saleor/pages/urls";
-import { PageSortingInput, PageSortField } from "@saleor/types/globalTypes";
-import { getOrderDirection } from "@saleor/utils/sort";
+import { PageListUrlSortField } from "@saleor/pages/urls";
+import { PageSortField } from "@saleor/types/globalTypes";
+import { createGetSortQueryVariables } from "@saleor/utils/sort";
 
 export function getSortQueryField(sort: PageListUrlSortField): PageSortField {
   switch (sort) {
@@ -18,11 +15,6 @@ export function getSortQueryField(sort: PageListUrlSortField): PageSortField {
   }
 }
 
-export function getSortQueryVariables(
-  params: PageListUrlQueryParams
-): PageSortingInput {
-  return {
-    direction: getOrderDirection(params.asc),
-    field: getSortQueryField(params.sort)
-  };
-}
+export const getSortQueryVariables = createGetSortQueryVariables(
+  getSortQueryField
+);

@@ -1,12 +1,6 @@
-import {
-  ServiceListUrlQueryParams,
-  ServiceListUrlSortField
-} from "@saleor/services/urls";
-import {
-  ServiceAccountSortingInput,
-  ServiceAccountSortField
-} from "@saleor/types/globalTypes";
-import { getOrderDirection } from "@saleor/utils/sort";
+import { ServiceListUrlSortField } from "@saleor/services/urls";
+import { ServiceAccountSortField } from "@saleor/types/globalTypes";
+import { createGetSortQueryVariables } from "@saleor/utils/sort";
 
 export function getSortQueryField(
   sort: ServiceListUrlSortField
@@ -19,11 +13,6 @@ export function getSortQueryField(
   }
 }
 
-export function getSortQueryVariables(
-  params: ServiceListUrlQueryParams
-): ServiceAccountSortingInput {
-  return {
-    direction: getOrderDirection(params.asc),
-    field: getSortQueryField(params.sort)
-  };
-}
+export const getSortQueryVariables = createGetSortQueryVariables(
+  getSortQueryField
+);

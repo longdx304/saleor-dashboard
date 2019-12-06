@@ -1,9 +1,6 @@
-import {
-  SaleListUrlQueryParams,
-  SaleListUrlSortField
-} from "@saleor/discounts/urls";
-import { SaleSortingInput, SaleSortField } from "@saleor/types/globalTypes";
-import { getOrderDirection } from "@saleor/utils/sort";
+import { SaleListUrlSortField } from "@saleor/discounts/urls";
+import { SaleSortField } from "@saleor/types/globalTypes";
+import { createGetSortQueryVariables } from "@saleor/utils/sort";
 
 export function getSortQueryField(sort: SaleListUrlSortField): SaleSortField {
   switch (sort) {
@@ -22,11 +19,6 @@ export function getSortQueryField(sort: SaleListUrlSortField): SaleSortField {
   }
 }
 
-export function getSortQueryVariables(
-  params: SaleListUrlQueryParams
-): SaleSortingInput {
-  return {
-    direction: getOrderDirection(params.asc),
-    field: getSortQueryField(params.sort)
-  };
-}
+export const getSortQueryVariables = createGetSortQueryVariables(
+  getSortQueryField
+);

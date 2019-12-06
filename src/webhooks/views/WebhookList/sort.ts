@@ -1,12 +1,6 @@
-import {
-  WebhookListUrlQueryParams,
-  WebhookListUrlSortField
-} from "@saleor/webhooks/urls";
-import {
-  WebhookSortingInput,
-  WebhookSortField
-} from "@saleor/types/globalTypes";
-import { getOrderDirection } from "@saleor/utils/sort";
+import { WebhookListUrlSortField } from "@saleor/webhooks/urls";
+import { WebhookSortField } from "@saleor/types/globalTypes";
+import { createGetSortQueryVariables } from "@saleor/utils/sort";
 
 export function getSortQueryField(
   sort: WebhookListUrlSortField
@@ -21,11 +15,6 @@ export function getSortQueryField(
   }
 }
 
-export function getSortQueryVariables(
-  params: WebhookListUrlQueryParams
-): WebhookSortingInput {
-  return {
-    direction: getOrderDirection(params.asc),
-    field: getSortQueryField(params.sort)
-  };
-}
+export const getSortQueryVariables = createGetSortQueryVariables(
+  getSortQueryField
+);

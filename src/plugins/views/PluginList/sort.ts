@@ -1,9 +1,6 @@
-import {
-  PluginListUrlQueryParams,
-  PluginListUrlSortField
-} from "@saleor/plugins/urls";
-import { PluginSortingInput, PluginSortField } from "@saleor/types/globalTypes";
-import { getOrderDirection } from "@saleor/utils/sort";
+import { PluginListUrlSortField } from "@saleor/plugins/urls";
+import { PluginSortField } from "@saleor/types/globalTypes";
+import { createGetSortQueryVariables } from "@saleor/utils/sort";
 
 export function getSortQueryField(
   sort: PluginListUrlSortField
@@ -18,11 +15,6 @@ export function getSortQueryField(
   }
 }
 
-export function getSortQueryVariables(
-  params: PluginListUrlQueryParams
-): PluginSortingInput {
-  return {
-    direction: getOrderDirection(params.asc),
-    field: getSortQueryField(params.sort)
-  };
-}
+export const getSortQueryVariables = createGetSortQueryVariables(
+  getSortQueryField
+);

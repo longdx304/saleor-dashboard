@@ -1,12 +1,6 @@
-import {
-  CollectionListUrlQueryParams,
-  CollectionListUrlSortField
-} from "@saleor/collections/urls";
-import {
-  CollectionSortingInput,
-  CollectionSortField
-} from "@saleor/types/globalTypes";
-import { getOrderDirection } from "@saleor/utils/sort";
+import { CollectionListUrlSortField } from "@saleor/collections/urls";
+import { CollectionSortField } from "@saleor/types/globalTypes";
+import { createGetSortQueryVariables } from "@saleor/utils/sort";
 
 export function getSortQueryField(
   sort: CollectionListUrlSortField
@@ -23,11 +17,6 @@ export function getSortQueryField(
   }
 }
 
-export function getSortQueryVariables(
-  params: CollectionListUrlQueryParams
-): CollectionSortingInput {
-  return {
-    direction: getOrderDirection(params.asc),
-    field: getSortQueryField(params.sort)
-  };
-}
+export const getSortQueryVariables = createGetSortQueryVariables(
+  getSortQueryField
+);

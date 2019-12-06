@@ -28,6 +28,7 @@ export function getArrowDirection(asc: boolean): TableCellHeaderArrowDirection {
   return asc ? "asc" : "desc";
 }
 
+// Extracts Sort object from the querystring
 export function getSortParams<
   TParams extends Sort<TFields>,
   TFields extends string
@@ -38,6 +39,7 @@ export function getSortParams<
   };
 }
 
+// Appends Sort object to the querystring params
 export function asSortParams<
   TParams extends Record<any, string>,
   TFields extends Record<any, string>
@@ -53,4 +55,28 @@ export function asSortParams<
       ? findValueInEnum(params.sort, fields)
       : defaultField || "name"
   };
+}
+
+interface SortingInput<T extends string> {
+  direction: OrderDirection;
+  field?: T | null;
+}
+type GetSortQueryField<TUrlField extends string, TSortField extends string> = (
+  sort: TUrlField
+) => TSortField;
+type GetSortQueryVariables<
+  TSortField extends string,
+  TParams extends Record<any, any>
+> = (params: TParams) => SortingInput<TSortField>;
+export function createGetSortQueryVariables<
+  TUrlField extends string,
+  TSortField extends string,
+  TParams extends Record<any, any>
+>(
+  getSortQueryField: GetSortQueryField<TUrlField, TSortField>
+): GetSortQueryVariables<TSortField, TParams> {
+  return (params: TParams) => ({
+    direction: getOrderDirection(params.asc),
+    field: getSortQueryField(params.sort)
+  });
 }

@@ -1,12 +1,6 @@
-import {
-  AttributeListUrlQueryParams,
-  AttributeListUrlSortField
-} from "@saleor/attributes/urls";
-import {
-  AttributeSortingInput,
-  AttributeSortField
-} from "@saleor/types/globalTypes";
-import { getOrderDirection } from "@saleor/utils/sort";
+import { AttributeListUrlSortField } from "@saleor/attributes/urls";
+import { AttributeSortField } from "@saleor/types/globalTypes";
+import { createGetSortQueryVariables } from "@saleor/utils/sort";
 
 export function getSortQueryField(
   sort: AttributeListUrlSortField
@@ -27,11 +21,6 @@ export function getSortQueryField(
   }
 }
 
-export function getSortQueryVariables(
-  params: AttributeListUrlQueryParams
-): AttributeSortingInput {
-  return {
-    direction: getOrderDirection(params.asc),
-    field: getSortQueryField(params.sort)
-  };
-}
+export const getSortQueryVariables = createGetSortQueryVariables(
+  getSortQueryField
+);

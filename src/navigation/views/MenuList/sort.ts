@@ -1,9 +1,6 @@
-import {
-  MenuListUrlQueryParams,
-  MenuListUrlSortField
-} from "@saleor/navigation/urls";
-import { MenuSortingInput, MenuSortField } from "@saleor/types/globalTypes";
-import { getOrderDirection } from "@saleor/utils/sort";
+import { MenuListUrlSortField } from "@saleor/navigation/urls";
+import { MenuSortField } from "@saleor/types/globalTypes";
+import { createGetSortQueryVariables } from "@saleor/utils/sort";
 
 export function getSortQueryField(sort: MenuListUrlSortField): MenuSortField {
   switch (sort) {
@@ -16,11 +13,6 @@ export function getSortQueryField(sort: MenuListUrlSortField): MenuSortField {
   }
 }
 
-export function getSortQueryVariables(
-  params: MenuListUrlQueryParams
-): MenuSortingInput {
-  return {
-    direction: getOrderDirection(params.asc),
-    field: getSortQueryField(params.sort)
-  };
-}
+export const getSortQueryVariables = createGetSortQueryVariables(
+  getSortQueryField
+);

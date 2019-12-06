@@ -1,9 +1,6 @@
-import {
-  StaffListUrlQueryParams,
-  StaffListUrlSortField
-} from "@saleor/staff/urls";
-import { UserSortingInput, UserSortField } from "@saleor/types/globalTypes";
-import { getOrderDirection } from "@saleor/utils/sort";
+import { StaffListUrlSortField } from "@saleor/staff/urls";
+import { UserSortField } from "@saleor/types/globalTypes";
+import { createGetSortQueryVariables } from "@saleor/utils/sort";
 
 export function getSortQueryField(sort: StaffListUrlSortField): UserSortField {
   switch (sort) {
@@ -16,11 +13,6 @@ export function getSortQueryField(sort: StaffListUrlSortField): UserSortField {
   }
 }
 
-export function getSortQueryVariables(
-  params: StaffListUrlQueryParams
-): UserSortingInput {
-  return {
-    direction: getOrderDirection(params.asc),
-    field: getSortQueryField(params.sort)
-  };
-}
+export const getSortQueryVariables = createGetSortQueryVariables(
+  getSortQueryField
+);
