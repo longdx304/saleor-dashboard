@@ -170,6 +170,7 @@ export const orderListQuery = gql`
     $last: Int
     $before: String
     $filter: OrderFilterInput
+    $sort: OrderSortingInput
   ) {
     orders(
       before: $before
@@ -177,6 +178,7 @@ export const orderListQuery = gql`
       first: $first
       last: $last
       filter: $filter
+      sortBy: $sort
     ) {
       edges {
         node {
@@ -209,7 +211,7 @@ export const orderListQuery = gql`
     }
   }
 `;
-export const TypedOrderListQuery = TypedQuery<OrderList, OrderListVariables>(
+export const useOrderListQuery = makeQuery<OrderList, OrderListVariables>(
   orderListQuery
 );
 

@@ -13,7 +13,8 @@ import {
   OrderListUrlQueryParams,
   orderPath,
   OrderUrlQueryParams,
-  OrderDraftListUrlSortField
+  OrderDraftListUrlSortField,
+  OrderListUrlSortField
 } from "./urls";
 import OrderDetailsComponent from "./views/OrderDetails";
 import OrderDraftListComponent from "./views/OrderDraftList";
@@ -21,7 +22,12 @@ import OrderListComponent from "./views/OrderList";
 
 const OrderList: React.FC<RouteComponentProps<any>> = ({ location }) => {
   const qs = parseQs(location.search.substr(1));
-  const params: OrderListUrlQueryParams = qs;
+  const params: OrderListUrlQueryParams = asSortParams(
+    qs,
+    OrderListUrlSortField,
+    OrderListUrlSortField.number,
+    false
+  );
   return <OrderListComponent params={params} />;
 };
 const OrderDraftList: React.FC<RouteComponentProps<any>> = ({ location }) => {
@@ -29,7 +35,8 @@ const OrderDraftList: React.FC<RouteComponentProps<any>> = ({ location }) => {
   const params: OrderDraftListUrlQueryParams = asSortParams(
     qs,
     OrderDraftListUrlSortField,
-    OrderDraftListUrlSortField.number
+    OrderDraftListUrlSortField.number,
+    false
   );
 
   return <OrderDraftListComponent params={params} />;

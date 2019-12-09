@@ -29,9 +29,19 @@ export enum OrderListUrlFiltersWithMultipleValuesEnum {
 export type OrderListUrlFilters = Filters<OrderListUrlFiltersEnum> &
   FiltersWithMultipleValues<OrderListUrlFiltersWithMultipleValuesEnum>;
 export type OrderListUrlDialog = "cancel" | TabActionDialog;
+export enum OrderListUrlSortField {
+  number = "number",
+  customer = "customer",
+  date = "date",
+  fulfillment = "status",
+  payment = "payment",
+  total = "total"
+}
+export type OrderListUrlSort = Sort<OrderListUrlSortField>;
 export type OrderListUrlQueryParams = BulkAction &
   Dialog<OrderListUrlDialog> &
   OrderListUrlFilters &
+  OrderListUrlSort &
   Pagination &
   ActiveTab;
 export const orderListUrl = (params?: OrderListUrlQueryParams): string => {
@@ -51,8 +61,8 @@ export type OrderDraftListUrlFilters = Filters<OrderDraftListUrlFiltersEnum>;
 export type OrderDraftListUrlDialog = "remove" | TabActionDialog;
 export enum OrderDraftListUrlSortField {
   number = "number",
-  date = "date",
   customer = "customer",
+  date = "date",
   total = "total"
 }
 export type OrderDraftListUrlSort = Sort<OrderDraftListUrlSortField>;

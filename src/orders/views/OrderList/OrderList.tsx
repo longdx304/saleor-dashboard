@@ -23,7 +23,7 @@ import {
   TypedOrderBulkCancelMutation,
   useOrderDraftCreateMutation
 } from "../../mutations";
-import { TypedOrderListQuery } from "../../queries";
+import { useOrderListQuery } from "../../queries";
 import { OrderBulkCancel } from "../../types/OrderBulkCancel";
 import { OrderDraftCreate } from "../../types/OrderDraftCreate";
 import {
@@ -43,6 +43,7 @@ import {
   getFilterVariables,
   saveFilterTab
 } from "./filters";
+import { getSortQueryVariables } from "./sort";
 
 interface OrderListProps {
   params: OrderListUrlQueryParams;
@@ -146,133 +147,127 @@ export const OrderList: React.FC<OrderListProps> = ({ params }) => {
   const queryVariables = React.useMemo(
     () => ({
       ...paginationState,
-      filter: getFilterVariables(params)
+      filter: getFilterVariables(params),
+      sort: getSortQueryVariables(params)
     }),
     [params, settings.rowNumber]
   );
+  const { data, loading, refetch } = useOrderListQuery({
+    displayLoader: true,
+    variables: queryVariables
+  });
+
+  const { loadNextPage, loadPreviousPage, pageInfo } = paginate(
+    maybe(() => data.orders.pageInfo),
+    paginationState,
+    params
+  );
+
+  const handleOrderBulkCancel = (data: OrderBulkCancel) => {
+    if (data.orderBulkCancel.errors.length === 0) {
+      notify({
+        text: intl.formatMessage({
+          defaultMessage: "Orders cancelled"
+        })
+      });
+      reset();
+      refetch();
+      closeModal();
+    }
+  };
 
   return (
-    <TypedOrderListQuery displayLoader variables={queryVariables}>
-      {({ data, loading, refetch }) => {
-        const { loadNextPage, loadPreviousPage, pageInfo } = paginate(
-          maybe(() => data.orders.pageInfo),
-          paginationState,
-          params
+    <TypedOrderBulkCancelMutation onCompleted={handleOrderBulkCancel}>
+      {(orderBulkCancel, orderBulkCancelOpts) => {
+        const orderBulkCancelTransitionState = getMutationState(
+          orderBulkCancelOpts.called,
+          orderBulkCancelOpts.loading,
+          maybe(() => orderBulkCancelOpts.data.orderBulkCancel.errors)
         );
-
-        const handleOrderBulkCancel = (data: OrderBulkCancel) => {
-          if (data.orderBulkCancel.errors.length === 0) {
-            notify({
-              text: intl.formatMessage({
-                defaultMessage: "Orders cancelled"
-              })
-            });
-            reset();
-            refetch();
-            closeModal();
-          }
-        };
+        const onOrderBulkCancel = (restock: boolean) =>
+          orderBulkCancel({
+            variables: {
+              ids: params.ids,
+              restock
+            }
+          });
 
         return (
-          <TypedOrderBulkCancelMutation onCompleted={handleOrderBulkCancel}>
-            {(orderBulkCancel, orderBulkCancelOpts) => {
-              const orderBulkCancelTransitionState = getMutationState(
-                orderBulkCancelOpts.called,
-                orderBulkCancelOpts.loading,
-                maybe(() => orderBulkCancelOpts.data.orderBulkCancel.errors)
-              );
-              const onOrderBulkCancel = (restock: boolean) =>
-                orderBulkCancel({
-                  variables: {
-                    ids: params.ids,
-                    restock
-                  }
-                });
-
-              return (
-                <>
-                  <OrderListPage
-                    currencySymbol={currencySymbol}
-                    settings={settings}
-                    filtersList={createFilterChips(
-                      params,
-                      {
-                        formatDate
-                      },
-                      changeFilterField,
-                      intl
-                    )}
-                    currentTab={currentTab}
-                    disabled={loading}
-                    orders={maybe(() =>
-                      data.orders.edges.map(edge => edge.node)
-                    )}
-                    pageInfo={pageInfo}
-                    onAdd={createOrder}
-                    onNextPage={loadNextPage}
-                    onPreviousPage={loadPreviousPage}
-                    onUpdateListSettings={updateListSettings}
-                    onRowClick={id => () => navigate(orderUrl(id))}
-                    isChecked={isSelected}
-                    selected={listElements.length}
-                    toggle={toggle}
-                    toggleAll={toggleAll}
-                    toolbar={
-                      <Button
-                        color="primary"
-                        onClick={() => openModal("cancel", listElements)}
-                      >
-                        <FormattedMessage
-                          defaultMessage="Cancel"
-                          description="cancel orders, button"
-                        />
-                      </Button>
-                    }
-                    onSearchChange={query => changeFilterField({ query })}
-                    onFilterAdd={data =>
-                      changeFilterField(createFilter(params, data))
-                    }
-                    onTabSave={() => openModal("save-search")}
-                    onTabDelete={() => openModal("delete-search")}
-                    onTabChange={handleTabChange}
-                    initialSearch={params.query || ""}
-                    tabs={getFilterTabs().map(tab => tab.name)}
-                    onAll={() =>
-                      changeFilters({
-                        status: undefined
-                      })
-                    }
+          <>
+            <OrderListPage
+              currencySymbol={currencySymbol}
+              settings={settings}
+              filtersList={createFilterChips(
+                params,
+                {
+                  formatDate
+                },
+                changeFilterField,
+                intl
+              )}
+              currentTab={currentTab}
+              disabled={loading}
+              orders={maybe(() => data.orders.edges.map(edge => edge.node))}
+              pageInfo={pageInfo}
+              onAdd={createOrder}
+              onNextPage={loadNextPage}
+              onPreviousPage={loadPreviousPage}
+              onUpdateListSettings={updateListSettings}
+              onRowClick={id => () => navigate(orderUrl(id))}
+              isChecked={isSelected}
+              selected={listElements.length}
+              toggle={toggle}
+              toggleAll={toggleAll}
+              toolbar={
+                <Button
+                  color="primary"
+                  onClick={() => openModal("cancel", listElements)}
+                >
+                  <FormattedMessage
+                    defaultMessage="Cancel"
+                    description="cancel orders, button"
                   />
-                  <OrderBulkCancelDialog
-                    confirmButtonState={orderBulkCancelTransitionState}
-                    numberOfOrders={maybe(
-                      () => params.ids.length.toString(),
-                      "..."
-                    )}
-                    onClose={closeModal}
-                    onConfirm={onOrderBulkCancel}
-                    open={params.action === "cancel"}
-                  />
-                  <SaveFilterTabDialog
-                    open={params.action === "save-search"}
-                    confirmButtonState="default"
-                    onClose={closeModal}
-                    onSubmit={handleFilterTabSave}
-                  />
-                  <DeleteFilterTabDialog
-                    open={params.action === "delete-search"}
-                    confirmButtonState="default"
-                    onClose={closeModal}
-                    onSubmit={handleFilterTabDelete}
-                    tabName={maybe(() => tabs[currentTab - 1].name, "...")}
-                  />
-                </>
-              );
-            }}
-          </TypedOrderBulkCancelMutation>
+                </Button>
+              }
+              onSearchChange={query => changeFilterField({ query })}
+              onFilterAdd={data =>
+                changeFilterField(createFilter(params, data))
+              }
+              onTabSave={() => openModal("save-search")}
+              onTabDelete={() => openModal("delete-search")}
+              onTabChange={handleTabChange}
+              initialSearch={params.query || ""}
+              tabs={getFilterTabs().map(tab => tab.name)}
+              onAll={() =>
+                changeFilters({
+                  status: undefined
+                })
+              }
+            />
+            <OrderBulkCancelDialog
+              confirmButtonState={orderBulkCancelTransitionState}
+              numberOfOrders={maybe(() => params.ids.length.toString(), "...")}
+              onClose={closeModal}
+              onConfirm={onOrderBulkCancel}
+              open={params.action === "cancel"}
+            />
+            <SaveFilterTabDialog
+              open={params.action === "save-search"}
+              confirmButtonState="default"
+              onClose={closeModal}
+              onSubmit={handleFilterTabSave}
+            />
+            <DeleteFilterTabDialog
+              open={params.action === "delete-search"}
+              confirmButtonState="default"
+              onClose={closeModal}
+              onSubmit={handleFilterTabDelete}
+              tabName={maybe(() => tabs[currentTab - 1].name, "...")}
+            />
+          </>
         );
       }}
-    </TypedOrderListQuery>
+    </TypedOrderBulkCancelMutation>
   );
 };
 
