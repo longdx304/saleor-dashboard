@@ -24,7 +24,7 @@ const props: OrderDraftListPageProps = {
   onAdd: () => undefined,
   orders,
   sort: {
-    ...sortPageProps,
+    ...sortPageProps.sort,
     sort: OrderDraftListUrlSortField.number
   }
 };

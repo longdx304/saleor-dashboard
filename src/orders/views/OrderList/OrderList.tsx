@@ -17,6 +17,8 @@ import usePaginator, {
 import useShop from "@saleor/hooks/useShop";
 import { getMutationState, maybe } from "@saleor/misc";
 import { ListViews } from "@saleor/types";
+import createSortHandler from "@saleor/utils/handlers/sortHandler";
+import { getSortParams } from "@saleor/utils/sort";
 import OrderBulkCancelDialog from "../../components/OrderBulkCancelDialog";
 import OrderListPage from "../../components/OrderListPage/OrderListPage";
 import {
@@ -176,6 +178,8 @@ export const OrderList: React.FC<OrderListProps> = ({ params }) => {
     }
   };
 
+  const handleSort = createSortHandler(navigate, orderListUrl, params);
+
   return (
     <TypedOrderBulkCancelMutation onCompleted={handleOrderBulkCancel}>
       {(orderBulkCancel, orderBulkCancelOpts) => {
@@ -209,11 +213,13 @@ export const OrderList: React.FC<OrderListProps> = ({ params }) => {
               disabled={loading}
               orders={maybe(() => data.orders.edges.map(edge => edge.node))}
               pageInfo={pageInfo}
+              sort={getSortParams(params)}
               onAdd={createOrder}
               onNextPage={loadNextPage}
               onPreviousPage={loadPreviousPage}
               onUpdateListSettings={updateListSettings}
               onRowClick={id => () => navigate(orderUrl(id))}
+              onSort={handleSort}
               isChecked={isSelected}
               selected={listElements.length}
               toggle={toggle}
