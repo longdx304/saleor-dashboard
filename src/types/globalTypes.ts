@@ -436,6 +436,15 @@ export enum OrderEventsEnum {
   UPDATED_ADDRESS = "UPDATED_ADDRESS",
 }
 
+export enum OrderSortField {
+  CREATION_DATE = "CREATION_DATE",
+  CUSTOMER = "CUSTOMER",
+  FULFILLMENT_STATUS = "FULFILLMENT_STATUS",
+  NUMBER = "NUMBER",
+  PAYMENT = "PAYMENT",
+  TOTAL = "TOTAL",
+}
+
 export enum OrderStatus {
   CANCELED = "CANCELED",
   DRAFT = "DRAFT",
@@ -929,6 +938,11 @@ export interface OrderLineCreateInput {
 
 export interface OrderLineInput {
   quantity: number;
+}
+
+export interface OrderSortingInput {
+  direction: OrderDirection;
+  field?: OrderSortField | null;
 }
 
 export interface OrderUpdateInput {

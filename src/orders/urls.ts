@@ -9,7 +9,8 @@ import {
   FiltersWithMultipleValues,
   Pagination,
   SingleAction,
-  TabActionDialog
+  TabActionDialog,
+  Sort
 } from "../types";
 
 const orderSectionUrl = "/orders";
@@ -48,10 +49,18 @@ export enum OrderDraftListUrlFiltersEnum {
 }
 export type OrderDraftListUrlFilters = Filters<OrderDraftListUrlFiltersEnum>;
 export type OrderDraftListUrlDialog = "remove" | TabActionDialog;
+export enum OrderDraftListUrlSortField {
+  number = "number",
+  date = "date",
+  customer = "customer",
+  total = "total"
+}
+export type OrderDraftListUrlSort = Sort<OrderDraftListUrlSortField>;
 export type OrderDraftListUrlQueryParams = ActiveTab &
   BulkAction &
   Dialog<OrderDraftListUrlDialog> &
   OrderDraftListUrlFilters &
+  OrderDraftListUrlSort &
   Pagination;
 export const orderDraftListUrl = (
   params?: OrderDraftListUrlQueryParams
