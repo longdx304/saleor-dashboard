@@ -46,11 +46,15 @@ export function asSortParams<
 >(
   params: TParams,
   fields: TFields,
-  defaultField?: keyof TFields
+  defaultField?: keyof TFields,
+  defaultOrder?: boolean
 ): TParams & Sort {
   return {
     ...params,
-    asc: parseBoolean(params.asc),
+    asc: parseBoolean(
+      params.asc,
+      defaultOrder === undefined ? true : defaultOrder
+    ),
     sort: params.sort
       ? findValueInEnum(params.sort, fields)
       : defaultField || "name"

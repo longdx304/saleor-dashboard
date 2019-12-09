@@ -341,9 +341,9 @@ export function findValueInEnum<TEnum extends object>(
   throw new Error(`Value ${needle} not found in enum`);
 }
 
-export function parseBoolean(a: string): boolean {
+export function parseBoolean(a: string, defaultValue: boolean): boolean {
   if (a === undefined) {
-    return true;
+    return defaultValue;
   }
   return a === "true";
 }
