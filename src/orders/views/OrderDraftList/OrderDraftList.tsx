@@ -18,6 +18,8 @@ import usePaginator, {
 } from "@saleor/hooks/usePaginator";
 import { getMutationState, maybe } from "@saleor/misc";
 import { ListViews } from "@saleor/types";
+import createSortHandler from "@saleor/utils/handlers/sortHandler";
+import { getSortParams } from "@saleor/utils/sort";
 import OrderDraftListPage from "../../components/OrderDraftListPage";
 import {
   TypedOrderDraftBulkCancelMutation,
@@ -180,6 +182,12 @@ export const OrderDraftList: React.FC<OrderDraftListProps> = ({ params }) => {
             }
           });
 
+        const handleSort = createSortHandler(
+          navigate,
+          orderDraftListUrl,
+          params
+        );
+
         return (
           <>
             <OrderDraftListPage
@@ -196,12 +204,14 @@ export const OrderDraftList: React.FC<OrderDraftListProps> = ({ params }) => {
               orders={maybe(() =>
                 data.draftOrders.edges.map(edge => edge.node)
               )}
+              sort={getSortParams(params)}
               pageInfo={pageInfo}
               onAdd={createOrder}
               onNextPage={loadNextPage}
               onPreviousPage={loadPreviousPage}
               onUpdateListSettings={updateListSettings}
               onRowClick={id => () => navigate(orderUrl(id))}
+              onSort={handleSort}
               isChecked={isSelected}
               selected={listElements.length}
               toggle={toggle}
