@@ -11,7 +11,7 @@
   "bugs": {
     "url": "https://github.com/mirumee/saleor-dashboard/issues"
   },
-  "homepage": "http://qt.dapghim.com/",
+  "homepage": "http://dapghim.com/",
   "engines": {
     "node": ">=12.12.0",
     "npm": ">=6.11.0"
