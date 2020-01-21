@@ -57,7 +57,7 @@ export interface OrderCustomerProps
   canEditAddresses: boolean;
   canEditCustomer: boolean;
   fetchUsers?: (query: string) => void;
-  onCustomerEdit?: (data: { user?: string; userEmail?: string }) => void;
+  onDraftOrderEdit?: (data: { user?: string; userEmail?: string }) => void;
   onProfileView: () => void;
   onBillingAddressEdit?: () => void;
   onShippingAddressEdit?: () => void;
@@ -73,7 +73,7 @@ const OrderCustomer: React.FC<OrderCustomerProps> = props => {
     order,
     users,
     userPermissions,
-    onCustomerEdit,
+    onDraftOrderEdit,
     onBillingAddressEdit,
     onFetchMore: onFetchMoreUsers,
     onProfileView,
@@ -111,7 +111,7 @@ const OrderCustomer: React.FC<OrderCustomerProps> = props => {
               <Button
                 color="primary"
                 variant="text"
-                disabled={!onCustomerEdit}
+                disabled={!onDraftOrderEdit}
                 onClick={toggleEditMode}
               >
                 {intl.formatMessage(buttonMessages.edit)}
@@ -130,7 +130,7 @@ const OrderCustomer: React.FC<OrderCustomerProps> = props => {
                 change(event);
                 const value = event.target.value;
 
-                onCustomerEdit({
+                onDraftOrderEdit({
                   [value.includes("@") ? "userEmail" : "user"]: value
                 });
                 toggleEditMode();

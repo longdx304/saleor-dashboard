@@ -36,6 +36,12 @@ export interface OrderFulfillmentUpdateTracking_orderFulfillmentUpdateTracking_o
   streetAddress2: string;
 }
 
+export interface OrderFulfillmentUpdateTracking_orderFulfillmentUpdateTracking_order_voucher {
+  __typename: "Voucher";
+  id: string;
+  code: string;
+}
+
 export interface OrderFulfillmentUpdateTracking_orderFulfillmentUpdateTracking_order_events_user {
   __typename: "User";
   id: string;
@@ -243,6 +249,7 @@ export interface OrderFulfillmentUpdateTracking_orderFulfillmentUpdateTracking_o
   __typename: "Order";
   id: string;
   billingAddress: OrderFulfillmentUpdateTracking_orderFulfillmentUpdateTracking_order_billingAddress | null;
+  voucher: OrderFulfillmentUpdateTracking_orderFulfillmentUpdateTracking_order_voucher | null;
   canFinalize: boolean;
   created: any;
   customerNote: string;

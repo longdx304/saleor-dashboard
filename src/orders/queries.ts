@@ -83,6 +83,10 @@ export const fragmentOrderDetails = gql`
     billingAddress {
       ...AddressFragment
     }
+    voucher {
+      id
+      code
+    }
     canFinalize
     created
     customerNote

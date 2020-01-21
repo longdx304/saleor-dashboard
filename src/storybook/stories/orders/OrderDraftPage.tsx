@@ -17,11 +17,14 @@ const props: Omit<OrderDraftPageProps, "classes"> = {
   countries,
   disabled: false,
   fetchUsers: () => undefined,
+  fetchVouchers: () => undefined,
+  hasMoreVouchers: undefined,
   onBack: () => undefined,
   onBillingAddressEdit: undefined,
-  onCustomerEdit: () => undefined,
   onDraftFinalize: () => undefined,
+  onDraftOrderEdit: () => undefined,
   onDraftRemove: () => undefined,
+  onFetchMoreVouchers: () => undefined,
   onNoteAdd: undefined,
   onOrderLineAdd: () => undefined,
   onOrderLineChange: () => undefined,
@@ -34,7 +37,9 @@ const props: Omit<OrderDraftPageProps, "classes"> = {
   saveButtonBarState: "default",
   userPermissions: permissions,
   users: clients,
-  usersLoading: false
+  usersLoading: false,
+  vouchers: undefined,
+  vouchersLoading: undefined
 };
 
 storiesOf("Views / Orders / Order draft", module)

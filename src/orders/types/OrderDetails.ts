@@ -30,6 +30,12 @@ export interface OrderDetails_order_billingAddress {
   streetAddress2: string;
 }
 
+export interface OrderDetails_order_voucher {
+  __typename: "Voucher";
+  id: string;
+  code: string;
+}
+
 export interface OrderDetails_order_events_user {
   __typename: "User";
   id: string;
@@ -237,6 +243,7 @@ export interface OrderDetails_order {
   __typename: "Order";
   id: string;
   billingAddress: OrderDetails_order_billingAddress | null;
+  voucher: OrderDetails_order_voucher | null;
   canFinalize: boolean;
   created: any;
   customerNote: string;

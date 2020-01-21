@@ -36,6 +36,12 @@ export interface OrderVoid_orderVoid_order_billingAddress {
   streetAddress2: string;
 }
 
+export interface OrderVoid_orderVoid_order_voucher {
+  __typename: "Voucher";
+  id: string;
+  code: string;
+}
+
 export interface OrderVoid_orderVoid_order_events_user {
   __typename: "User";
   id: string;
@@ -243,6 +249,7 @@ export interface OrderVoid_orderVoid_order {
   __typename: "Order";
   id: string;
   billingAddress: OrderVoid_orderVoid_order_billingAddress | null;
+  voucher: OrderVoid_orderVoid_order_voucher | null;
   canFinalize: boolean;
   created: any;
   customerNote: string;

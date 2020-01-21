@@ -14,6 +14,7 @@ import SaveButtonBar from "@saleor/components/SaveButtonBar";
 import Skeleton from "@saleor/components/Skeleton";
 import { sectionNames } from "@saleor/intl";
 import { SearchCustomers_search_edges_node } from "@saleor/searches/types/SearchCustomers";
+import { SearchVouchers_search_edges_node } from "@saleor/searches/types/SearchVouchers";
 import { FetchMoreProps, UserPermissionProps } from "@saleor/types";
 import { maybe } from "../../../misc";
 import { DraftOrderInput } from "../../../types/globalTypes";
@@ -42,16 +43,21 @@ export interface OrderDraftPageProps
   disabled: boolean;
   order: OrderDetails_order;
   users: SearchCustomers_search_edges_node[];
+  vouchers: SearchVouchers_search_edges_node[];
+  vouchersLoading: boolean;
   usersLoading: boolean;
+  hasMoreVouchers: boolean;
   countries: Array<{
     code: string;
     label: string;
   }>;
   saveButtonBarState: ConfirmButtonTransitionState;
   fetchUsers: (query: string) => void;
+  fetchVouchers: (query: string) => void;
+  onFetchMoreVouchers: () => void;
   onBack: () => void;
   onBillingAddressEdit: () => void;
-  onCustomerEdit: (data: DraftOrderInput) => void;
+  onDraftOrderEdit: (data: DraftOrderInput) => void;
   onDraftFinalize: () => void;
   onDraftRemove: () => void;
   onNoteAdd: (data: HistoryFormData) => void;
@@ -71,11 +77,16 @@ const OrderDraftPage: React.FC<OrderDraftPageProps> = props => {
   const {
     disabled,
     fetchUsers,
+    fetchVouchers,
+    hasMoreVouchers,
+    onFetchMoreVouchers,
+    vouchers,
+    vouchersLoading,
     hasMore,
     saveButtonBarState,
     onBack,
     onBillingAddressEdit,
-    onCustomerEdit,
+    onDraftOrderEdit,
     onDraftFinalize,
     onDraftRemove,
     onFetchMore,
@@ -130,6 +141,12 @@ const OrderDraftPage: React.FC<OrderDraftPageProps> = props => {
         <div>
           <OrderDraftDetails
             order={order}
+            vouchers={vouchers}
+            fetchVouchers={fetchVouchers}
+            hasMoreVouchers={hasMoreVouchers}
+            vouchersLoading={vouchersLoading}
+            onDraftOrderEdit={onDraftOrderEdit}
+            onFetchMoreVouchers={onFetchMoreVouchers}
             onOrderLineAdd={onOrderLineAdd}
             onOrderLineChange={onOrderLineChange}
             onOrderLineRemove={onOrderLineRemove}
@@ -151,7 +168,7 @@ const OrderDraftPage: React.FC<OrderDraftPageProps> = props => {
             users={users}
             userPermissions={userPermissions}
             onBillingAddressEdit={onBillingAddressEdit}
-            onCustomerEdit={onCustomerEdit}
+            onDraftOrderEdit={onDraftOrderEdit}
             onFetchMore={onFetchMore}
             onProfileView={onProfileView}
             onShippingAddressEdit={onShippingAddressEdit}

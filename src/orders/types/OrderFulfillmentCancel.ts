@@ -36,6 +36,12 @@ export interface OrderFulfillmentCancel_orderFulfillmentCancel_order_billingAddr
   streetAddress2: string;
 }
 
+export interface OrderFulfillmentCancel_orderFulfillmentCancel_order_voucher {
+  __typename: "Voucher";
+  id: string;
+  code: string;
+}
+
 export interface OrderFulfillmentCancel_orderFulfillmentCancel_order_events_user {
   __typename: "User";
   id: string;
@@ -243,6 +249,7 @@ export interface OrderFulfillmentCancel_orderFulfillmentCancel_order {
   __typename: "Order";
   id: string;
   billingAddress: OrderFulfillmentCancel_orderFulfillmentCancel_order_billingAddress | null;
+  voucher: OrderFulfillmentCancel_orderFulfillmentCancel_order_voucher | null;
   canFinalize: boolean;
   created: any;
   customerNote: string;

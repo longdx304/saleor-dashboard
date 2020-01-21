@@ -5,6 +5,7 @@ import { DEFAULT_INITIAL_SEARCH_DATA } from "@saleor/config";
 import useNavigator from "@saleor/hooks/useNavigator";
 import useUser from "@saleor/hooks/useUser";
 import useCustomerSearch from "@saleor/searches/useCustomerSearch";
+import useVoucherSearch from "@saleor/searches/useVoucherSearch";
 import createDialogActionHandlers from "@saleor/utils/handlers/dialogActionHandlers";
 import { customerUrl } from "../../../customers/urls";
 import { getMutationState, maybe, transformAddressToForm } from "../../../misc";
@@ -80,6 +81,13 @@ export const OrderDetails: React.FC<OrderDetailsProps> = ({ id, params }) => {
     search: searchUsers,
     result: users
   } = useCustomerSearch({
+    variables: DEFAULT_INITIAL_SEARCH_DATA
+  });
+  const {
+    loadMore: loadMoreVouchers,
+    search: searchVouchers,
+    result: vouchers
+  } = useVoucherSearch({
     variables: DEFAULT_INITIAL_SEARCH_DATA
   });
   const {
@@ -401,9 +409,28 @@ export const OrderDetails: React.FC<OrderDetailsProps> = ({ id, params }) => {
                           )}
                           onFetchMore={loadMoreCustomers}
                           fetchUsers={searchUsers}
+                          vouchers={maybe(
+                            () =>
+                              vouchers.data.search.edges.map(edge => edge.node),
+                            []
+                          )}
+                          hasMoreVouchers={maybe(
+                            () => vouchers.data.search.pageInfo.hasNextPage,
+                            false
+                          )}
+                          onFetchMoreVouchers={loadMoreVouchers}
+                          fetchVouchers={searchVouchers}
+                          vouchersLoading={vouchers.loading}
+                          /* onVoucherEdit={data =>
+                            orderDraftUpdate.mutate({
+                              id,
+                              input: data
+                            })
+                          } */
+
                           loading={users.loading}
                           usersLoading={users.loading}
-                          onCustomerEdit={data =>
+                          onDraftOrderEdit={data =>
                             orderDraftUpdate.mutate({
                               id,
                               input: data

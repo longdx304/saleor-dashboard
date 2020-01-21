@@ -30,6 +30,12 @@ export interface OrderDetailsFragment_billingAddress {
   streetAddress2: string;
 }
 
+export interface OrderDetailsFragment_voucher {
+  __typename: "Voucher";
+  id: string;
+  code: string;
+}
+
 export interface OrderDetailsFragment_events_user {
   __typename: "User";
   id: string;
@@ -237,6 +243,7 @@ export interface OrderDetailsFragment {
   __typename: "Order";
   id: string;
   billingAddress: OrderDetailsFragment_billingAddress | null;
+  voucher: OrderDetailsFragment_voucher | null;
   canFinalize: boolean;
   created: any;
   customerNote: string;

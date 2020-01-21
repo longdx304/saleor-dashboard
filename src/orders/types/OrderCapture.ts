@@ -36,6 +36,12 @@ export interface OrderCapture_orderCapture_order_billingAddress {
   streetAddress2: string;
 }
 
+export interface OrderCapture_orderCapture_order_voucher {
+  __typename: "Voucher";
+  id: string;
+  code: string;
+}
+
 export interface OrderCapture_orderCapture_order_events_user {
   __typename: "User";
   id: string;
@@ -243,6 +249,7 @@ export interface OrderCapture_orderCapture_order {
   __typename: "Order";
   id: string;
   billingAddress: OrderCapture_orderCapture_order_billingAddress | null;
+  voucher: OrderCapture_orderCapture_order_voucher | null;
   canFinalize: boolean;
   created: any;
   customerNote: string;

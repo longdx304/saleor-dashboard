@@ -36,6 +36,12 @@ export interface OrderLineUpdate_draftOrderLineUpdate_order_billingAddress {
   streetAddress2: string;
 }
 
+export interface OrderLineUpdate_draftOrderLineUpdate_order_voucher {
+  __typename: "Voucher";
+  id: string;
+  code: string;
+}
+
 export interface OrderLineUpdate_draftOrderLineUpdate_order_events_user {
   __typename: "User";
   id: string;
@@ -243,6 +249,7 @@ export interface OrderLineUpdate_draftOrderLineUpdate_order {
   __typename: "Order";
   id: string;
   billingAddress: OrderLineUpdate_draftOrderLineUpdate_order_billingAddress | null;
+  voucher: OrderLineUpdate_draftOrderLineUpdate_order_voucher | null;
   canFinalize: boolean;
   created: any;
   customerNote: string;
