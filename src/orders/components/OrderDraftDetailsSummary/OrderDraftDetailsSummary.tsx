@@ -126,63 +126,71 @@ const OrderDraftDetailsSummary: React.FC<OrderDraftDetailsSummaryProps> = props 
           )}
         </tr>
         <tr>
-          <td>
-            <Link onClick={toggleEditMode}>
-              <FormattedMessage
-                defaultMessage="Update voucher"
-                description="button"
-              />
-            </Link>
-          </td>
-          <td className={classes.textRight}>
-            {isInEditMode ? (
-              <Form initial={{ query: "" }}>
-                {({ change, data }) => {
-                  const handleChange = (event: React.ChangeEvent<any>) => {
-                    change(event);
-                    const value = event.target.value;
+          {maybe(() => order.voucher) !== undefined ? (
+            <>
+              <td>
+                <Link onClick={toggleEditMode}>
+                  <FormattedMessage
+                    defaultMessage="Update voucher"
+                    description="button"
+                  />
+                </Link>
+              </td>
+              <td className={classes.textRight}>
+                {isInEditMode ? (
+                  <Form initial={{ query: "" }}>
+                    {({ change, data }) => {
+                      const handleChange = (event: React.ChangeEvent<any>) => {
+                        change(event);
+                        const value = event.target.value;
 
-                    onDraftOrderEdit({
-                      ["voucher"]: value
-                    });
-                    toggleEditMode();
-                  };
-                  const voucherChoices = maybe(() => vouchers, []).map(
-                    voucher => ({
-                      label: voucher.code,
-                      value: voucher.id
-                    })
-                  );
-                  const handleVoucherChange = createSingleAutocompleteSelectHandler(
-                    handleChange,
-                    setVoucherCode,
-                    voucherChoices
-                  );
-                  return (
-                    <SingleAutocompleteSelectField
-                      allowCustomValues={false}
-                      choices={voucherChoices}
-                      displayValue={voucherCode}
-                      fetchChoices={fetchVouchers}
-                      hasMore={hasMoreVouchers}
-                      loading={vouchersLoading}
-                      placeholder={intl.formatMessage({
-                        defaultMessage: "Search Voucher"
-                      })}
-                      onChange={handleVoucherChange}
-                      onFetchMore={onFetchMoreVouchers}
-                      name="query"
-                      value={data.query}
-                    />
-                  );
-                }}
-              </Form>
-            ) : maybe(() => order.voucher.code) === undefined ? (
-              <Typography></Typography>
-            ) : (
-              <Typography>{order.voucher.code}</Typography>
-            )}
-          </td>
+                        onDraftOrderEdit({
+                          ["voucher"]: value
+                        });
+                        toggleEditMode();
+                      };
+                      const voucherChoices = maybe(() => vouchers, []).map(
+                        voucher => ({
+                          label: voucher.code,
+                          value: voucher.id
+                        })
+                      );
+                      const handleVoucherChange = createSingleAutocompleteSelectHandler(
+                        handleChange,
+                        setVoucherCode,
+                        voucherChoices
+                      );
+                      return (
+                        <SingleAutocompleteSelectField
+                          allowCustomValues={false}
+                          choices={voucherChoices}
+                          displayValue={voucherCode}
+                          fetchChoices={fetchVouchers}
+                          hasMore={hasMoreVouchers}
+                          loading={vouchersLoading}
+                          placeholder={intl.formatMessage({
+                            defaultMessage: "Search Voucher"
+                          })}
+                          onChange={handleVoucherChange}
+                          onFetchMore={onFetchMoreVouchers}
+                          name="query"
+                          value={data.query}
+                        />
+                      );
+                    }}
+                  </Form>
+                ) : maybe(() => order.voucher.code) === undefined ? (
+                  <Typography></Typography>
+                ) : (
+                  <Typography>{order.voucher.code}</Typography>
+                )}
+              </td>
+            </>
+          ) : (
+            <td colSpan={2}>
+              <Skeleton />
+            </td>
+          )}
         </tr>
         <tr>
           {maybe(() => order.total.tax) !== undefined ? (
