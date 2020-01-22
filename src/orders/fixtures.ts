@@ -10,6 +10,7 @@ import {
 } from "../types/globalTypes";
 import { OrderDetails_order } from "./types/OrderDetails";
 import { OrderList_orders_edges_node } from "./types/OrderList";
+import { SearchOrderVariant_search_edges_node } from "./types/SearchOrderVariant";
 
 export const clients: SearchCustomers_search_edges_node[] = [
   {
@@ -1165,7 +1166,9 @@ export const shippingMethods = [
   { country: "whole world", id: "s1", name: "DHL", price: {} },
   { country: "Afghanistan", id: "s2", name: "UPS" }
 ];
-export const orderLineSearch = (placeholderImage: string) => [
+export const orderLineSearch = (
+  placeholderImage: string
+): SearchOrderVariant_search_edges_node[] => [
   {
     __typename: "Product" as "Product",
     id: "UHJvZHVjdDo3Mg==",
@@ -1179,21 +1182,51 @@ export const orderLineSearch = (placeholderImage: string) => [
         __typename: "ProductVariant" as "ProductVariant",
         id: "UHJvZHVjdFZhcmlhbnQ6MjAy",
         name: "500ml",
-        price: { __typename: "Money" as "Money", amount: 3.0, currency: "USD" },
+        pricing: {
+          __typename: "VariantPricingInfo",
+          priceUndiscounted: {
+            __typename: "TaxedMoney",
+            net: {
+              __typename: "Money" as "Money",
+              amount: 3.0,
+              currency: "USD"
+            }
+          }
+        },
         sku: "93855755"
       },
       {
         __typename: "ProductVariant" as "ProductVariant",
         id: "UHJvZHVjdFZhcmlhbnQ6MjAz",
         name: "1l",
-        price: { __typename: "Money" as "Money", amount: 5.0, currency: "USD" },
+        pricing: {
+          __typename: "VariantPricingInfo",
+          priceUndiscounted: {
+            __typename: "TaxedMoney",
+            net: {
+              __typename: "Money" as "Money",
+              amount: 5.0,
+              currency: "USD"
+            }
+          }
+        },
         sku: "43226647"
       },
       {
         __typename: "ProductVariant" as "ProductVariant",
         id: "UHJvZHVjdFZhcmlhbnQ6MjA0",
         name: "2l",
-        price: { __typename: "Money" as "Money", amount: 7.0, currency: "USD" },
+        pricing: {
+          __typename: "VariantPricingInfo",
+          priceUndiscounted: {
+            __typename: "TaxedMoney",
+            net: {
+              __typename: "Money" as "Money",
+              amount: 7.0,
+              currency: "USD"
+            }
+          }
+        },
         sku: "80884671"
       }
     ]
@@ -1211,21 +1244,51 @@ export const orderLineSearch = (placeholderImage: string) => [
         __typename: "ProductVariant" as "ProductVariant",
         id: "UHJvZHVjdFZhcmlhbnQ6MjEx",
         name: "500ml",
-        price: { __typename: "Money" as "Money", amount: 3.0, currency: "USD" },
+        pricing: {
+          __typename: "VariantPricingInfo",
+          priceUndiscounted: {
+            __typename: "TaxedMoney",
+            net: {
+              __typename: "Money" as "Money",
+              amount: 3.0,
+              currency: "USD"
+            }
+          }
+        },
         sku: "43200242"
       },
       {
         __typename: "ProductVariant" as "ProductVariant",
         id: "UHJvZHVjdFZhcmlhbnQ6MjEy",
         name: "1l",
-        price: { __typename: "Money" as "Money", amount: 5.0, currency: "USD" },
+        pricing: {
+          __typename: "VariantPricingInfo",
+          priceUndiscounted: {
+            __typename: "TaxedMoney",
+            net: {
+              __typename: "Money" as "Money",
+              amount: 5.0,
+              currency: "USD"
+            }
+          }
+        },
         sku: "79129513"
       },
       {
         __typename: "ProductVariant" as "ProductVariant",
         id: "UHJvZHVjdFZhcmlhbnQ6MjEz",
         name: "2l",
-        price: { __typename: "Money" as "Money", amount: 7.0, currency: "USD" },
+        pricing: {
+          __typename: "VariantPricingInfo",
+          priceUndiscounted: {
+            __typename: "TaxedMoney",
+            net: {
+              __typename: "Money" as "Money",
+              amount: 7.0,
+              currency: "USD"
+            }
+          }
+        },
         sku: "75799450"
       }
     ]

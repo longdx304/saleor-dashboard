@@ -479,7 +479,7 @@ export enum PaymentChargeStatusEnum {
 }
 
 export enum PermissionEnum {
-  IMPERSONATE_USERS = "IMPERSONATE_USERS",
+  MANAGE_CHECKOUTS = "MANAGE_CHECKOUTS",
   MANAGE_DISCOUNTS = "MANAGE_DISCOUNTS",
   MANAGE_GIFT_CARD = "MANAGE_GIFT_CARD",
   MANAGE_MENUS = "MANAGE_MENUS",
@@ -640,6 +640,7 @@ export enum WebhookErrorCode {
 
 export enum WebhookEventTypeEnum {
   ANY_EVENTS = "ANY_EVENTS",
+  CHECKOUT_QUANTITY_CHANGED = "CHECKOUT_QUANTITY_CHANGED",
   CUSTOMER_CREATED = "CUSTOMER_CREATED",
   ORDER_CANCELLED = "ORDER_CANCELLED",
   ORDER_CREATED = "ORDER_CREATED",
@@ -710,12 +711,13 @@ export interface AttributeFilterInput {
 
 export interface AttributeInput {
   slug: string;
-  value: string;
+  value?: string | null;
+  values?: (string | null)[] | null;
 }
 
 export interface AttributeSortingInput {
   direction: OrderDirection;
-  field?: AttributeSortField | null;
+  field: AttributeSortField;
 }
 
 export interface AttributeUpdateInput {
@@ -754,6 +756,7 @@ export interface CatalogueInput {
 
 export interface CategoryFilterInput {
   search?: string | null;
+  ids?: (string | null)[] | null;
 }
 
 export interface CategoryInput {
@@ -768,7 +771,7 @@ export interface CategoryInput {
 
 export interface CategorySortingInput {
   direction: OrderDirection;
-  field?: CategorySortField | null;
+  field: CategorySortField;
 }
 
 export interface CollectionCreateInput {
@@ -787,6 +790,7 @@ export interface CollectionCreateInput {
 export interface CollectionFilterInput {
   published?: CollectionPublished | null;
   search?: string | null;
+  ids?: (string | null)[] | null;
 }
 
 export interface CollectionInput {
@@ -803,7 +807,7 @@ export interface CollectionInput {
 
 export interface CollectionSortingInput {
   direction: OrderDirection;
-  field?: CollectionSortField | null;
+  field: CollectionSortField;
 }
 
 export interface ConfigurationItemInput {
@@ -906,7 +910,7 @@ export interface MenuItemMoveInput {
 
 export interface MenuSortingInput {
   direction: OrderDirection;
-  field?: MenuSortField | null;
+  field: MenuSortField;
 }
 
 export interface NameTranslationInput {
@@ -942,7 +946,7 @@ export interface OrderLineInput {
 
 export interface OrderSortingInput {
   direction: OrderDirection;
-  field?: OrderSortField | null;
+  field: OrderSortField;
 }
 
 export interface OrderUpdateInput {
@@ -971,7 +975,7 @@ export interface PageInput {
 
 export interface PageSortingInput {
   direction: OrderDirection;
-  field?: PageSortField | null;
+  field: PageSortField;
 }
 
 export interface PageTranslationInput {
@@ -982,9 +986,14 @@ export interface PageTranslationInput {
   contentJson?: any | null;
 }
 
+export interface PluginFilterInput {
+  active?: boolean | null;
+  search?: string | null;
+}
+
 export interface PluginSortingInput {
   direction: OrderDirection;
-  field?: PluginSortField | null;
+  field: PluginSortField;
 }
 
 export interface PluginUpdateInput {
@@ -1008,6 +1017,7 @@ export interface ProductFilterInput {
   productType?: string | null;
   search?: string | null;
   minimalPrice?: PriceRangeInput | null;
+  productTypes?: (string | null)[] | null;
 }
 
 export interface ProductOrder {
@@ -1020,6 +1030,7 @@ export interface ProductTypeFilterInput {
   search?: string | null;
   configurable?: ProductTypeConfigurable | null;
   productType?: ProductTypeEnum | null;
+  ids?: (string | null)[] | null;
 }
 
 export interface ProductTypeInput {
@@ -1035,7 +1046,7 @@ export interface ProductTypeInput {
 
 export interface ProductTypeSortingInput {
   direction: OrderDirection;
-  field?: ProductTypeSortField | null;
+  field: ProductTypeSortField;
 }
 
 export interface ProductVariantBulkCreateInput {
@@ -1094,7 +1105,7 @@ export interface SaleInput {
 
 export interface SaleSortingInput {
   direction: OrderDirection;
-  field?: SaleSortField | null;
+  field: SaleSortField;
 }
 
 export interface SeoInput {
@@ -1115,7 +1126,7 @@ export interface ServiceAccountInput {
 
 export interface ServiceAccountSortingInput {
   direction: OrderDirection;
-  field?: ServiceAccountSortField | null;
+  field: ServiceAccountSortField;
 }
 
 export interface ServiceAccountTokenInput {
@@ -1168,7 +1179,6 @@ export interface StaffCreateInput {
   isActive?: boolean | null;
   note?: string | null;
   permissions?: (PermissionEnum | null)[] | null;
-  sendPasswordEmail?: boolean | null;
   redirectUrl?: string | null;
 }
 
@@ -1202,13 +1212,12 @@ export interface UserCreateInput {
   email?: string | null;
   isActive?: boolean | null;
   note?: string | null;
-  sendPasswordEmail?: boolean | null;
   redirectUrl?: string | null;
 }
 
 export interface UserSortingInput {
   direction: OrderDirection;
-  field?: UserSortField | null;
+  field: UserSortField;
 }
 
 export interface VoucherFilterInput {
@@ -1240,7 +1249,7 @@ export interface VoucherInput {
 
 export interface VoucherSortingInput {
   direction: OrderDirection;
-  field?: VoucherSortField | null;
+  field: VoucherSortField;
 }
 
 export interface WebhookCreateInput {
@@ -1259,7 +1268,7 @@ export interface WebhookFilterInput {
 
 export interface WebhookSortingInput {
   direction: OrderDirection;
-  field?: WebhookSortField | null;
+  field: WebhookSortField;
 }
 
 export interface WebhookUpdateInput {

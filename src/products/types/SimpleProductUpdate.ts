@@ -141,7 +141,7 @@ export interface SimpleProductUpdate_productUpdate_product_variants {
   priceOverride: SimpleProductUpdate_productUpdate_product_variants_priceOverride | null;
   margin: number | null;
   quantity: number;
-  quantityAllocated: number;
+  quantityAllocated: number | null;
   stockQuantity: number;
 }
 
@@ -204,7 +204,7 @@ export interface SimpleProductUpdate_productVariantUpdate_productVariant_attribu
   values: (SimpleProductUpdate_productVariantUpdate_productVariant_attributes_attribute_values | null)[] | null;
 }
 
-export interface SimpleProductUpdate_productVariantUpdate_productVariant_attributes_value {
+export interface SimpleProductUpdate_productVariantUpdate_productVariant_attributes_values {
   __typename: "AttributeValue";
   id: string;
   name: string | null;
@@ -214,7 +214,7 @@ export interface SimpleProductUpdate_productVariantUpdate_productVariant_attribu
 export interface SimpleProductUpdate_productVariantUpdate_productVariant_attributes {
   __typename: "SelectedAttribute";
   attribute: SimpleProductUpdate_productVariantUpdate_productVariant_attributes_attribute;
-  value: SimpleProductUpdate_productVariantUpdate_productVariant_attributes_value | null;
+  values: (SimpleProductUpdate_productVariantUpdate_productVariant_attributes_values | null)[];
 }
 
 export interface SimpleProductUpdate_productVariantUpdate_productVariant_costPrice {
@@ -282,7 +282,7 @@ export interface SimpleProductUpdate_productVariantUpdate_productVariant {
   product: SimpleProductUpdate_productVariantUpdate_productVariant_product;
   sku: string;
   quantity: number;
-  quantityAllocated: number;
+  quantityAllocated: number | null;
 }
 
 export interface SimpleProductUpdate_productVariantUpdate {

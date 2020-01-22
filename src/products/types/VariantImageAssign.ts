@@ -28,7 +28,7 @@ export interface VariantImageAssign_variantImageAssign_productVariant_attributes
   values: (VariantImageAssign_variantImageAssign_productVariant_attributes_attribute_values | null)[] | null;
 }
 
-export interface VariantImageAssign_variantImageAssign_productVariant_attributes_value {
+export interface VariantImageAssign_variantImageAssign_productVariant_attributes_values {
   __typename: "AttributeValue";
   id: string;
   name: string | null;
@@ -38,7 +38,7 @@ export interface VariantImageAssign_variantImageAssign_productVariant_attributes
 export interface VariantImageAssign_variantImageAssign_productVariant_attributes {
   __typename: "SelectedAttribute";
   attribute: VariantImageAssign_variantImageAssign_productVariant_attributes_attribute;
-  value: VariantImageAssign_variantImageAssign_productVariant_attributes_value | null;
+  values: (VariantImageAssign_variantImageAssign_productVariant_attributes_values | null)[];
 }
 
 export interface VariantImageAssign_variantImageAssign_productVariant_costPrice {
@@ -106,7 +106,7 @@ export interface VariantImageAssign_variantImageAssign_productVariant {
   product: VariantImageAssign_variantImageAssign_productVariant_product;
   sku: string;
   quantity: number;
-  quantityAllocated: number;
+  quantityAllocated: number | null;
 }
 
 export interface VariantImageAssign_variantImageAssign {
