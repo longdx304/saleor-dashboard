@@ -1,6 +1,7 @@
 import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
 
+import { useIntl } from "react-intl";
 import CardSpacer from "@saleor/components/CardSpacer";
 import Container from "@saleor/components/Container";
 import Grid from "@saleor/components/Grid";
@@ -71,6 +72,7 @@ const HomePage: React.FC<HomePageProps> = props => {
     userPermissions
   } = props;
 
+  const intl = useIntl();
   const classes = useStyles(props);
 
   return (
@@ -85,7 +87,9 @@ const HomePage: React.FC<HomePageProps> = props => {
           >
             <div className={classes.cardContainer}>
               <HomeAnalyticsCard
-                title={"Sales"}
+                title={intl.formatMessage({
+                  defaultMessage: "Revenue"
+                })}
                 icon={<Sales fontSize={"inherit"} viewBox="0 0 64 64" />}
               >
                 {sales ? (
@@ -95,7 +99,9 @@ const HomePage: React.FC<HomePageProps> = props => {
                 )}
               </HomeAnalyticsCard>
               <HomeAnalyticsCard
-                title={"Orders"}
+                title={intl.formatMessage({
+                  defaultMessage: "Orders"
+                })}
                 icon={<Orders fontSize={"inherit"} viewBox="0 0 64 64" />}
               >
                 {orders === undefined ? (

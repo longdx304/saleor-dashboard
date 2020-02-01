@@ -184,9 +184,9 @@
   "scripts": {
     "build": "webpack -p",
     "extract-json-messages": "rimraf build/locale && cross-env NODE_ENV=extract babel src 'src/**/*.{ts,tsx}' -o build/dashboard.bundle.js",
-    "extract-pot-messages": "rip json2pot \"build/locale/**/*.json\" -c description -o locale/messages.pot",
+    "extract-pot-messages": "rip json2pot \"build/locale/**/*.json\" -o locale/messages.pot",
     "extract-messages": "npm run extract-json-messages && npm run extract-pot-messages",
-    "build-messages": "rip po2json 'locale/**/*.po' -m 'build/locale/**/*.json' -o 'locale' -c 'description'",
+    "build-messages": "rip po2json 'locale/**/*.po' -m 'build/locale/**/*.json' -o 'locale'",
     "build-types": "apollo client:codegen --target=typescript types --globalTypesFile=src/types/globalTypes.ts",
     "check-types": "tsc --noEmit",
     "generate-component": "plop --plopfile .plop/plopfile.js",
